@@ -8,18 +8,21 @@ const store = createStore({
     setPaymentsListData(state, payload) {
       state.paymentsList = payload;
     },
+    addPaymentListData(state,payload){
+      state.paymentsList.push(payload);
+    },
+    editPaymentListFirstElement(state, patload){
+      Vue.set()
+    }
   },
   actions: {
-    incrementAsync({ commit }) {
-      setTimeout(() => {
-        commit('increment');
-      }, 1000);
-    },
+
   },
   getters: {
-    doubleCount(state) {
-      return state.count * 2;
+    getPaymentsListFullValuePrice: state => {
+      return state.paymentsList.reduce((acc,cur)=>acc + cur.value,0)
     },
+    getPaymentsList: state => state.paymentsList,
   },
 });
 

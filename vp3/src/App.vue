@@ -1,7 +1,12 @@
 <template>
   <div id="app">
-    <AddPaymentForm @addNewPayment="addToPaymentList" />
-    <PaymentsDisplay :items="paymentsList" />
+    <header>
+      <div class="total" v-if="total">Total: {{ total }}</div>
+    </header>
+    <main>
+      <AddPaymentForm  />
+      <PaymentsDisplay :items="getPaymentsList" />
+    </main>
   </div>
 </template>
 
@@ -9,7 +14,7 @@
 
 import AddPaymentForm from './components/AddPaymentForm.vue'
 import PaymentsDisplay from './components/PaymentsDisplay.vue'
-
+import { mapMutations, mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -20,10 +25,17 @@ export default {
   data() {
     return {
       show: true,
-      paymentsList: []
     };
   },
+  computed:{
+    ...mapGetters(['getPaymentsList']),
+    total(){
+      return this.$store.getters.getPaymentsListFullValuePrice
+    }
+  },
   methods: {
+    ...mapMutations(['setPaymentsListData']),
+
     fetchData() {
       return [
         {
@@ -43,13 +55,9 @@ export default {
         },
       ];
     },
-    addToPaymentList(data) {
-      // this.paymentsList.push(data);
-      this.paymentsList = [...this.paymentsList, data]
-    },
   },
   created() {
-    this.paymentsList = this.fetchData()
+    this.setPaymentsListData(this.fetchData())
   },
 }
 </script>

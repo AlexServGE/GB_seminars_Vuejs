@@ -8,6 +8,9 @@
 </template>
 
 <script>
+
+import { mapMutations } from 'vuex'
+
 export default {
     name: "AddPaymentForm",
     data() {
@@ -27,13 +30,15 @@ export default {
         }
     },
     methods: {
+        ...mapMutations(['addPaymentListData']),
         onClick() {
             const data = {
                 date: this.date || this.getCurrentDate,
                 category: this.category,
                 value: this.value,
             };
-            this.$emit('addNewPayment', data);
+            this.addPaymentListData(data);
+            // this.$emit('addNewPayment', data);
         }
     }
 }
