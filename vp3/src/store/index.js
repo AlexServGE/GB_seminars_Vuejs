@@ -1,14 +1,26 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
 
-export default createStore({
+const store = createStore({
   state: {
-  },
-  getters: {
+    paymentsList:[]
   },
   mutations: {
+    setPaymentsListData(state, payload) {
+      state.paymentsList = payload;
+    },
   },
   actions: {
+    incrementAsync({ commit }) {
+      setTimeout(() => {
+        commit('increment');
+      }, 1000);
+    },
   },
-  modules: {
-  }
-})
+  getters: {
+    doubleCount(state) {
+      return state.count * 2;
+    },
+  },
+});
+
+export default store;

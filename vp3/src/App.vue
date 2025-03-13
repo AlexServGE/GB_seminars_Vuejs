@@ -1,16 +1,56 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <AddPaymentForm @addNewPayment="addToPaymentList" />
+    <PaymentsDisplay :items="paymentsList" />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import AddPaymentForm from './components/AddPaymentForm.vue'
+import PaymentsDisplay from './components/PaymentsDisplay.vue'
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    AddPaymentForm,
+    PaymentsDisplay,
+  },
+  data() {
+    return {
+      show: true,
+      paymentsList: []
+    };
+  },
+  methods: {
+    fetchData() {
+      return [
+        {
+          date: '28.03.2020',
+          category: "food",
+          value: 169,
+        },
+        {
+          date: '24.03.2020',
+          category: "transport",
+          value: 360,
+        },
+        {
+          date: '24.03.2020',
+          category: "food",
+          value: 532,
+        },
+      ];
+    },
+    addToPaymentList(data) {
+      // this.paymentsList.push(data);
+      this.paymentsList = [...this.paymentsList, data]
+    },
+  },
+  created() {
+    this.paymentsList = this.fetchData()
+  },
 }
 </script>
 
