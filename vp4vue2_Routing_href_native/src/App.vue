@@ -2,9 +2,9 @@
   <div id="app">
     <div class="wrapper">
       <header>
-        <a href="#dashboard" @click="setPage">Dashboard</a> /
-        <a href="#about" @click="setPage">About</a> /
-        <a href="#notFound" @click="setPage">NotFound</a>
+        <a href="dashboard" @click="setPage">Dashboard</a> /
+        <a href="about" @click="setPage">About</a> /
+        <a href="notFound" @click="setPage">NotFound</a>
       </header>
       <main>
         <Dashboard v-if="page === 'dashboard'" />
@@ -33,13 +33,21 @@ export default {
     };
   },
   methods: {
-    setPage(){
-      this.page = location.hash.slice(1)
+    setPage() {
+      this.page = location.pathname.slice(1)
     }
   },
-  mounted(){
+  mounted() {
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        history.pushState({}, '', link.href);
+        this.setPage();
+      })
+    })
     this.setPage();
-    window.addEventListener('hashchange', () => {
+    window.addEventListener('popstate', () => {
       this.setPage();
     });
   }
